@@ -1,18 +1,20 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { newVideos } from "@/utils";
 import Link from "next/link";
+import { FilterNewVideos } from "@/types";
 
 const page = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     newVideos({
-      title: "string",
-      description: "string",
-      image: "string",
-      url: "string",
+        id: parseInt("number"),
+        title: "string",
+        description: "string",
+        image: "string",
+        url: "string",
     }).then((result) => {
       setData(result);
     });
@@ -28,7 +30,10 @@ const page = () => {
             </h2>
           </div>
           <div className="col-md-12 pt-5">
-            <Link href="/addVideo" className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">
+            <Link
+              href="/addVideo"
+              className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
+            >
               Add New Post
             </Link>
           </div>
@@ -51,8 +56,21 @@ const page = () => {
                     rounded-lg
                 "
                 >
-                  {data.map((item: any) => (
-                    <div key={item.id}>
+                  {data.map((item: FilterNewVideos) => (
+                    <div
+                      className="
+                            bg-white
+                            p-4
+                            rounded-lg
+                            justify-between
+                            hover:shadow-lg
+                            transition-shadow
+                            duration-300
+                            ease-in-out
+                            cursor-pointer
+                    "
+                      key={item.id}
+                    >
                       <h2
                         className="
                                 font-bold
@@ -63,10 +81,56 @@ const page = () => {
                             "
                       >
                         <a href={item.url} target="_blank" rel="noreferrer">
-                            {item.title}
+                          {item.title}
                         </a>
                       </h2>
-                      <img src={item.image} alt={item.title} />
+                      <img
+                        className="
+                            w-full
+                            object-cover
+                            rounded-lg
+                            mb-4
+                            cursor-pointer
+
+                      "
+                        src={item.image}
+                        alt={item.title}
+                      />
+                      <Link
+                        className="
+                            text-center
+                            bg-blue-500
+                            hover:bg-blue-700
+                            text-white
+                            font-bold
+                            py-2
+                            px-4
+                            rounded
+                            mt-2
+                            block
+                            "
+                        href={`/editVideo/${item.id}`}
+                      >
+                        Edit Post
+                      </Link>
+
+                      <Link
+                        className="
+                            text-center
+                            bg-red-500
+                            hover:bg-red-700
+                            text-white
+                            font-bold
+                            py-2
+                            px-4
+                            rounded
+                            mt-2
+                            block
+                            "
+                        href={`/delete/${item.id}`}
+                      >
+                        Delete Post
+                      </Link>
                     </div>
                   ))}
                 </div>

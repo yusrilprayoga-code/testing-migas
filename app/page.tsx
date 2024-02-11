@@ -8,6 +8,7 @@ const home = () => {
 
   useEffect(() => {
       newVideos({
+          id: parseInt("number"),
           title: "string",
           description: "string",
           image: "string",

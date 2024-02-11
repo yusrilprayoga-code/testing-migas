@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import { formNewVideos } from "@/utils";
+import { editVideos, newVideos } from "@/utils";
 
 const page = () => {
   const [formData, setFormData] = useState({
@@ -12,23 +12,51 @@ const page = () => {
     image: "",
     url: "",
   });
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await newVideos({ 
+          id: parseInt("number"),
+          title: "string",
+          description: "string",
+          image: "string",
+          url: "string",
+        });
+
+        if (result.length > 0) {
+          const firstItem = result[
+            Math.floor(Math.random() * result.length)
+          ];
+          setFormData({
+            id: String(firstItem.id),
+            title: firstItem.title,
+            description: firstItem.description,
+            image: firstItem.image,
+            url: firstItem.url,
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleFormSubmit = async (e: any) => {
     e.preventDefault();
-    await formNewVideos(formData as any).then((result) => {
+    try {
+      const result = await editVideos(formData as any);
       setFormData(result);
-        alert("Video added successfully");
-        window.location.href = "/post";
-    });
-    setFormData({
-      id: "",
-      title: "",
-      description: "",
-      image: "",
-      url: "",
-    });
+      alert('Video updated successfully');
+      window.location.href = '/post';
+    } catch (error) {
+      console.error('Error updating video:', error);
+    }
   };
   return (
+    <>
     <div
       className="border-b border-gray-900/10 
     bg-white
@@ -39,10 +67,10 @@ const page = () => {
     "
     >
       <h2 className="text-base font-semibold leading-7 text-gray-900">
-        Add New Video
+        Edit Video
       </h2>
       <p className="mt-1 text-sm leading-6 text-gray-600">
-        Fill in the form to add a new video
+        Fill in the form to edit a video
       </p>
 
         <form
@@ -59,7 +87,7 @@ const page = () => {
         sm:gap-y-6
 
       ">
-        <input type="text" name="id" value={formData.id} disabled />
+        <input type="hidden" name="id" value={formData.id} disabled />
         <div className="sm:col-span-4">
           <label
             htmlFor="title"
@@ -152,10 +180,11 @@ const page = () => {
         type="submit"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded sm:col-span-4"
       >
-        Add Video
+        Edit Video
       </button>
         </form>
     </div>
+    </>
   );
 };
 
