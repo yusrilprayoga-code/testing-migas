@@ -1,6 +1,21 @@
-import React from "react";
+"use client";
 
+import { newVideos } from "@/utils";
+import { useState, useEffect } from "react";
 const home = () => {
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+      newVideos({
+          title: "string",
+          description: "string",
+          image: "string",
+          url: "string",
+      }).then((result) => {
+          setData(result);
+      });
+    }, []);
   return (
     <div>
       <main>
@@ -13,9 +28,13 @@ const home = () => {
                     Welcome to your dashboard
                   </h2>
                   <div className="grid grid-cols-3 gap-4 w-full mt-4">
-                    <div className=" bg-purple-500 p-4 rounded-lg shadow-md">
-                      <h2 className="text-2xl font-bold text-gray-900">10</h2>
-                      <p className="text-gray-600">Posts</p>
+                    <div className=" bg-blue-500 p-4 rounded-lg shadow-md">
+                      <h2 className="text-2xl font-bold text-gray-900">
+                        {data.length}
+                      </h2>
+                      <p className="text-gray-600">
+                        Videos
+                      </p>
                     </div>
                     <div className=" bg-amber-500 p-4 rounded-lg shadow-md">
                       <h2 className="text-2xl font-bold text-gray-900">20</h2>

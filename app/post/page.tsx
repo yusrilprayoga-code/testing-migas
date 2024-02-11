@@ -2,6 +2,7 @@
 
 import { useState, useEffect, use } from "react";
 import { newVideos } from "@/utils";
+import Link from "next/link";
 
 const page = () => {
   const [data, setData] = useState([]);
@@ -26,10 +27,10 @@ const page = () => {
               Welcome to your post
             </h2>
           </div>
-          <div className="col-md-12">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">
+          <div className="col-md-12 pt-5">
+            <Link href="/addVideo" className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">
               Add New Post
-            </button>
+            </Link>
           </div>
           <div className="col-md-12 mt-4">
             <div className="border-4 border-dashed border-gray-200 rounded-lg h-screen">
